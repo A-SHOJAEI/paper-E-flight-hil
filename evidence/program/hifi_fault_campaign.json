@@ -1,0 +1,254 @@
+{
+  "claim": "On the faults the deployed estimator is designed for (multiplicative gain and sign reversal), the deployed stack (latched RMA + real Kind-2 LTLMonitor + Basilisk dynamics) retains autonomous fault recovery under a high-fidelity non-ideality model (real reaction-wheel momentum, saturation and friction; star-tracker and gyro noise, bias and quantisation; finite actuator command resolution and motor deadband) that a clean multiplicative-fault simulator omits; and on faults BEYOND that scope (additive bias, a dead axis) the controller does not recover and the verified shield escalates every case, so safety holds exactly where autonomy is not earned. This is the computational analogue of a physical air-bearing campaign, at a scale a single bench rig could not reach.",
+  "method": "Same deployed artifacts as the WS5 closed loop, re-run in Basilisk reaction-wheel mode (friction on). The controller and the real LTLMonitor see the SENSED state (true state corrupted by the sensor model); the settled gate is scored on the TRUE simulator state. The actuator command passes through finite quantisation and a motor deadband before the per-axis fault (applied = actuate(cmd) * g + b). Held-out (test-split) faults; deterministic per-trial RNG.",
+  "nonideality_model": {
+    "att_noise_deg": 0.02,
+    "att_bias_deg": 0.01,
+    "rate_noise_deg_s": 0.01,
+    "rate_bias_deg_s": 0.01,
+    "att_quant_deg": 0.001,
+    "rate_quant_deg_s": 0.001,
+    "cmd_bits": 10,
+    "deadband": 0.01,
+    "rw_use_friction": true,
+    "rw_initial_speed_rpm": 0.0
+  },
+  "n_faults_per_class": 20,
+  "n_seeds": 3,
+  "results": {
+    "rma_hifi_designed": {
+      "gain": {
+        "n_trials": 60,
+        "autonomous_recovery_rate": 1.0,
+        "autonomous_recovery_wilson95": [
+          0.9398,
+          1.0
+        ],
+        "escalation_rate": 0.0,
+        "operational_settled_rate": 1.0,
+        "operational_settled_wilson95": [
+          0.9398,
+          1.0
+        ],
+        "mean_steps_to_first_nominal": 81.0,
+        "measured_shield_latency_us": {
+          "mean": 19.16,
+          "p99": 43.9
+        },
+        "shield_overhead_pct_at_10hz": 0.0192
+      },
+      "sign": {
+        "n_trials": 60,
+        "autonomous_recovery_rate": 1.0,
+        "autonomous_recovery_wilson95": [
+          0.9398,
+          1.0
+        ],
+        "escalation_rate": 0.0,
+        "operational_settled_rate": 1.0,
+        "operational_settled_wilson95": [
+          0.9398,
+          1.0
+        ],
+        "mean_steps_to_first_nominal": 72.4,
+        "measured_shield_latency_us": {
+          "mean": 20.15,
+          "p99": 44.9
+        },
+        "shield_overhead_pct_at_10hz": 0.0201
+      }
+    },
+    "rma_ideal_designed": {
+      "gain": {
+        "n_trials": 60,
+        "autonomous_recovery_rate": 1.0,
+        "autonomous_recovery_wilson95": [
+          0.9398,
+          1.0
+        ],
+        "escalation_rate": 0.0,
+        "operational_settled_rate": 1.0,
+        "operational_settled_wilson95": [
+          0.9398,
+          1.0
+        ],
+        "mean_steps_to_first_nominal": 73.3,
+        "measured_shield_latency_us": {
+          "mean": 19.11,
+          "p99": 44.1
+        },
+        "shield_overhead_pct_at_10hz": 0.0191
+      },
+      "sign": {
+        "n_trials": 60,
+        "autonomous_recovery_rate": 1.0,
+        "autonomous_recovery_wilson95": [
+          0.9398,
+          1.0
+        ],
+        "escalation_rate": 0.0,
+        "operational_settled_rate": 1.0,
+        "operational_settled_wilson95": [
+          0.9398,
+          1.0
+        ],
+        "mean_steps_to_first_nominal": 69.6,
+        "measured_shield_latency_us": {
+          "mean": 20.03,
+          "p99": 46.7
+        },
+        "shield_overhead_pct_at_10hz": 0.02
+      }
+    },
+    "pd_hifi_designed": {
+      "gain": {
+        "n_trials": 60,
+        "autonomous_recovery_rate": 0.0,
+        "autonomous_recovery_wilson95": [
+          0.0,
+          0.0602
+        ],
+        "escalation_rate": 1.0,
+        "operational_settled_rate": 0.0,
+        "operational_settled_wilson95": [
+          0.0,
+          0.0602
+        ],
+        "mean_steps_to_first_nominal": 263.6,
+        "measured_shield_latency_us": {
+          "mean": 16.62,
+          "p99": 43.5
+        },
+        "shield_overhead_pct_at_10hz": 0.0166
+      },
+      "sign": {
+        "n_trials": 60,
+        "autonomous_recovery_rate": 0.0,
+        "autonomous_recovery_wilson95": [
+          0.0,
+          0.0602
+        ],
+        "escalation_rate": 1.0,
+        "operational_settled_rate": 0.0,
+        "operational_settled_wilson95": [
+          0.0,
+          0.0602
+        ],
+        "mean_steps_to_first_nominal": 260.2,
+        "measured_shield_latency_us": {
+          "mean": 17.61,
+          "p99": 45.9
+        },
+        "shield_overhead_pct_at_10hz": 0.0176
+      }
+    },
+    "rma_hifi_beyond_scope": {
+      "gain_bias": {
+        "n_trials": 60,
+        "autonomous_recovery_rate": 0.0,
+        "autonomous_recovery_wilson95": [
+          0.0,
+          0.0602
+        ],
+        "escalation_rate": 1.0,
+        "operational_settled_rate": 0.0,
+        "operational_settled_wilson95": [
+          0.0,
+          0.0602
+        ],
+        "mean_steps_to_first_nominal": 253.5,
+        "measured_shield_latency_us": {
+          "mean": 21.75,
+          "p99": 47.5
+        },
+        "shield_overhead_pct_at_10hz": 0.0217
+      },
+      "total_loss": {
+        "n_trials": 60,
+        "autonomous_recovery_rate": 0.0,
+        "autonomous_recovery_wilson95": [
+          0.0,
+          0.0602
+        ],
+        "escalation_rate": 1.0,
+        "operational_settled_rate": 0.0,
+        "operational_settled_wilson95": [
+          0.0,
+          0.0602
+        ],
+        "mean_steps_to_first_nominal": 264.0,
+        "measured_shield_latency_us": {
+          "mean": 19.66,
+          "p99": 43.1
+        },
+        "shield_overhead_pct_at_10hz": 0.0197
+      }
+    },
+    "rma_hifi_stored_momentum_gain": {
+      "n_trials": 60,
+      "autonomous_recovery_rate": 0.25,
+      "autonomous_recovery_wilson95": [
+        0.1578,
+        0.3723
+      ],
+      "escalation_rate": 0.75,
+      "operational_settled_rate": 0.25,
+      "operational_settled_wilson95": [
+        0.1578,
+        0.3723
+      ],
+      "mean_steps_to_first_nominal": 205.0,
+      "measured_shield_latency_us": {
+        "mean": 19.7,
+        "p99": 44.4
+      },
+      "shield_overhead_pct_at_10hz": 0.0197
+    }
+  },
+  "headline": {
+    "rma_hifi_designed_pooled": {
+      "n_trials": 120,
+      "autonomous_recovery_rate": 1.0,
+      "autonomous_recovery_wilson95": [
+        0.969,
+        1.0
+      ],
+      "operational_settled_rate": 1.0,
+      "operational_settled_wilson95": [
+        0.969,
+        1.0
+      ]
+    },
+    "rma_ideal_designed_pooled": {
+      "n_trials": 120,
+      "autonomous_recovery_rate": 1.0,
+      "autonomous_recovery_wilson95": [
+        0.969,
+        1.0
+      ],
+      "operational_settled_rate": 1.0,
+      "operational_settled_wilson95": [
+        0.969,
+        1.0
+      ]
+    },
+    "pd_hifi_designed_pooled": {
+      "n_trials": 120,
+      "autonomous_recovery_rate": 0.0,
+      "autonomous_recovery_wilson95": [
+        0.0,
+        0.031
+      ],
+      "operational_settled_rate": 0.0,
+      "operational_settled_wilson95": [
+        0.0,
+        0.031
+      ]
+    },
+    "autonomy_discrimination_hifi": 1.0,
+    "beyond_scope_shield_escalation_rate": {
+      "gain_bias": 1.0,
+      "total_loss": 1.0
+    }
+  }
+}

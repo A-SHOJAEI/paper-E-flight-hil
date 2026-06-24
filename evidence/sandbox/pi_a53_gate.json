@@ -1,0 +1,30 @@
+{
+  "artifact": "real Cortex-A53/A72 sandbox (Raspberry Pi)",
+  "cpu_model": "Raspberry Pi 5 Model B Rev 1.0",
+  "controller_shield": {
+    "ns_per_cycle": 24465.735,
+    "ms_per_cycle": 0.02447,
+    "shield_violations": 2000000,
+    "n_iters": 2000000,
+    "checksum": -282001.8765984328,
+    "peak_rss_mb": 1.0,
+    "latency_gate_100ms_pass": true
+  },
+  "commander_int4_gguf": {
+    "tokens_per_second": 28.35,
+    "ms_per_token": 35.27,
+    "goal_gen_latency_s": 1.69,
+    "goal_tokens_assumed": 48,
+    "peak_rss_mb": 436.5,
+    "fits_512mb": true
+  },
+  "power": {
+    "backend": "pi5_pmic",
+    "power_w_idle": 3.121,
+    "power_w_peak": 9.602,
+    "power_w_mean_run": 3.779,
+    "power_w_core_attributable": 6.481,
+    "note": "core-attributable = peak(run) - mean(idle); board-wide draw is higher."
+  },
+  "notes": "Controller+shield is the 10 Hz real-time tier (\u2264100 ms gate). The commander runs at mission-event cadence (seconds) \u2014 its tok/s sets goal-generation latency, NOT the 100 ms controller budget. Cycle-accurate, real hardware (closes the QEMU caveat)."
+}
